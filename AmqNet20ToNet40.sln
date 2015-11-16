@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmqNet20ToNet40", "AmqNet20ToNet40\AmqNet20ToNet40.csproj", "{B8B428D1-0F37-472E-9FF8-F217962B740B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmqNet40.Utils", "AmqNet40.Utils\AmqNet40.Utils.csproj", "{3BEBB90C-A701-48A3-AC12-02495877F39F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8B428D1-0F37-472E-9FF8-F217962B740B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8B428D1-0F37-472E-9FF8-F217962B740B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8B428D1-0F37-472E-9FF8-F217962B740B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8B428D1-0F37-472E-9FF8-F217962B740B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BEBB90C-A701-48A3-AC12-02495877F39F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BEBB90C-A701-48A3-AC12-02495877F39F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BEBB90C-A701-48A3-AC12-02495877F39F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BEBB90C-A701-48A3-AC12-02495877F39F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
