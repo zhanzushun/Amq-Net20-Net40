@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -15,8 +16,9 @@ namespace Utils.Test
         public void SomeTests()
         {
             var a = aa();
-            var n = a.FullName;
             var n2 = a.GetName().Name;
+            var a2 = string.Empty;
+            var a3 = a2.Trim().StartsWith("#");
         }
 
         private static Assembly aa()

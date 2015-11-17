@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Reflection;
 
 namespace AmqNet40.Utils.Test
 {
@@ -10,16 +11,14 @@ namespace AmqNet40.Utils.Test
         [TestInitialize]
         public void Setup()
         {
-            _settings = new Settings("");
+            _settings = SettingsFactory.CreateImpl(Assembly.GetExecutingAssembly().GetName().Name);
         }
 
         [TestMethod]
         public void Test1()
         {
-            Assert.IsTrue(string.IsNullOrEmpty(_settings.TokenForKeyValue));
-            Assert.IsTrue(string.IsNullOrEmpty(_settings.TokenForList));
-            Assert.IsTrue(string.IsNullOrEmpty(_settings.TokenForDictKeyValue));
-            Assert.IsTrue(string.IsNullOrEmpty(_settings.FilePath));
+            Assert.IsTrue(!_settings.Tokens.IsNullOrEmpty());
+            Assert.IsTrue(!_settings.FilePath.IsNullOrEmpty());
         }
     }
 }

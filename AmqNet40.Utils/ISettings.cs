@@ -9,12 +9,15 @@ namespace AmqNet40.Utils
     public interface ISettings
     {
         string FilePath { get; }
-        string TokenForKeyValue { get; }
-        string TokenForList { get; }
-        string TokenForDictKeyValue { get; }
+        string Tokens { get; }
 
         string Get(string key);
         Dictionary<string, string> GetDict(string key);
         List<string> GetList(string key);
+    }
+
+    public interface ISettingsFactory
+    {
+        ISettings Create(string assemblyName, string fileName = null);
     }
 }

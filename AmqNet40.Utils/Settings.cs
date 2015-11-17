@@ -3,49 +3,66 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AmqNet40.Utils
 {
-    public class Settings : ISettings
+    internal class Settings : ISettings
     {
-        public Settings(string assemblyName)
+        private readonly string _file;
+        private readonly string _tokens = ":,|";
+        private const string KeyTokens = "tokens";
+
+        internal Settings(string assemblyName, string fileName)
         {
-            //Assembly.GetExecutingAssembly()
+            _file = Path.Combine(DllDirectory, "Configurations", assemblyName, fileName);
+            if (!File.Exists(_file))
+                throw new ArgumentException(string.Format("File '{0}' doesn't exist", _file));     
+            var overrideTokens = ReadOverrideTokens();
+            if (!overrideTokens.IsNullOrEmpty())
+                _tokens = overrideTokens;
+        }
+
+        internal string ReadOverrideTokens()
+        {
+            var lines = File.ReadAllLines(_file);
+            if (lines.Length == 0)
+                return null;
+
+            var firstLine = lines.FirstOrDefault(x => x.Trim().Length > 0 
+                && !x.Trim().StartsWith("#"));
+
+            if (firstLine == null)
+                return null;
+
+            var firstLineKeyValue = firstLine
+                .Split(new[] { ':' }, 2)
+                .Select(x => x.Trim())
+                .ToArray();
+
+            if (firstLineKeyValue.Length == 2 && firstLineKeyValue[0] == KeyTokens 
+                && firstLineKeyValue[1].Length >= 3)
+                return firstLineKeyValue[1];
+            return null;
+        }
+
+        private static string DllDirectory
+        {
+            get { return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location); }
         }
 
         public string FilePath
         {
             get
             {
-                //Assembly.GetCallingAssembly()
-                throw new NotImplementedException();
-                
+                return _file;
             }
         }
 
-        public string TokenForDictKeyValue
+        public string Tokens
         {
             get
             {
-                throw new NotImplementedException();
-            }
-        }
-
-        public string TokenForKeyValue
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public string TokenForList
-        {
-            get
-            {
-                throw new NotImplementedException();
+                return _tokens;
             }
         }
 
@@ -62,6 +79,21 @@ namespace AmqNet40.Utils
         public List<string> GetList(string key)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    internal class SettingsFactory : ISettingsFactory
+    {
+        public ISettings Create(string assemblyName, string fileName = null)
+        {
+            return CreateImpl(assemblyName, fileName);
+        }
+
+        internal static ISettings CreateImpl(string assemblyName, string fileName = null)
+        {
+            if (fileName.IsNullOrEmpty())
+                fileName = "Settings.cfg";
+            return new Settings(assemblyName, fileName);
         }
     }
 }
