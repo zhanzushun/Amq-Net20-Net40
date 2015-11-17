@@ -15,9 +15,4 @@ namespace AmqNet40.Utils
         Dictionary<string, string> GetDict(string key);
         List<string> GetList(string key);
     }
-
-    public interface ISettingsFactory
-    {
-        ISettings Create(string assemblyName, string fileName = null);
-    }
 }
