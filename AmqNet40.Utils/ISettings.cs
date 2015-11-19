@@ -13,6 +13,8 @@ namespace AmqNet40.Utils
 
         string Get(string key);
         Dictionary<string, string> GetDict(string key);
+        string GetDictItem(string key, string key2);
         List<string> GetList(string key);
+        void Invalid();
     }
 }

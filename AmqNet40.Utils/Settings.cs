@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-
 
 namespace AmqNet40.Utils
 {
@@ -22,7 +20,8 @@ namespace AmqNet40.Utils
 
         internal Settings(string assemblyName, string fileName)
         {
-            _file = Path.Combine(Utils.AssemblyDirectory, "Configurations", assemblyName, fileName);
+            _file = GetFilePath(assemblyName, fileName);
+
             if (!File.Exists(_file))
                 throw new ArgumentException(string.Format("File '{0}' doesn't exist", _file));
 
@@ -30,6 +29,17 @@ namespace AmqNet40.Utils
             _dictOfLists = new Dictionary<string, List<string>>();
             _dict = new Dictionary<string, string>();
 
+            LoadFile();
+        }
+
+        public static string GetFilePath(string assemblyName, string fileName)
+        {
+            return Path.Combine(Utils.AssemblyDirectory, "Configurations", assemblyName,
+                fileName);
+        }
+
+        private void LoadFile()
+        {
             ParseFile();
             _loaded = true;
         }
@@ -90,7 +100,7 @@ namespace AmqNet40.Utils
 
         public void Invalid()
         {
-            lock(_lock)
+            lock (_lock)
             {
                 _tokens = Default_tokens;
                 _dict.Clear();
@@ -112,6 +122,7 @@ namespace AmqNet40.Utils
         {
             get
             {
+                EnsureLoaded();
                 return _tokens;
             }
         }
@@ -121,20 +132,20 @@ namespace AmqNet40.Utils
             if (!_loaded)
                 lock (_lock)
                     if (!_loaded)
-                        ParseFile();
+                        LoadFile();
         }
 
         public string Get(string key)
         {
             EnsureLoaded();
-            lock (_lock) 
+            lock (_lock)
                 return _dict.GetOrNull(key);
         }
 
         public Dictionary<string, string> GetDict(string key)
         {
             EnsureLoaded();
-            lock (_lock) 
+            lock (_lock)
                 return _dictOfDicts.GetOrNull(key);
         }
 
@@ -152,7 +163,7 @@ namespace AmqNet40.Utils
         public List<string> GetList(string key)
         {
             EnsureLoaded();
-            lock (_lock) 
+            lock (_lock)
                 return _dictOfLists.GetOrNull(key);
         }
     }
